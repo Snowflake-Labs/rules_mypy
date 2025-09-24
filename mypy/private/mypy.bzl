@@ -179,6 +179,10 @@ def _mypy_impl(target, ctx):
     depsets = [
         dep.default_runfiles.files
         for dep, _ in all_deps
+    ] + [
+        dep[RulesPythonPyInfo].transitive_pyi_files
+        for dep, _ in all_deps
+        if RulesPythonPyInfo in dep
     ]
 
     output_file = ctx.actions.declare_file(ctx.rule.attr.name + ".mypy_stdout")
